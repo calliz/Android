@@ -34,8 +34,8 @@ public class MyCountries extends ListActivity {
 		// Load simple properties
 		int sortProp = prefs.getInt("sortProp", -1);
 		boolean checkboxPref = prefs.getBoolean("checkboxPref", false);
-
-		showToast("checkboxPref: " + checkboxPref);
+		String colorPref = prefs.getString("colorPref", "-1");
+		String editPref = prefs.getString("editPref", "NULL");
 
 		datasource = new CountriesDataSource(this);
 		datasource.open();
@@ -63,6 +63,9 @@ public class MyCountries extends ListActivity {
 			showToast("values sorted by default");
 			break;
 		}
+
+		showToast("sortProp : " + sortProp + "\ncheckboxPref: " + checkboxPref
+				+ "\ncolorPref: " + colorPref + "\neditPref: " + editPref);
 
 		// fill ListView with elements
 		ListView list = getListView();
@@ -164,7 +167,7 @@ public class MyCountries extends ListActivity {
 			listAdapter.notifyDataSetChanged();
 			return true;
 		case R.id.settings:
-			startActivity(new Intent(this, SimplePreferenceActivity.class));
+			startActivity(new Intent(this, CountryPreferenceActivity.class));
 			return true;
 		case android.R.id.home:
 			// app icon in action bar clicked ==> go home
@@ -226,9 +229,11 @@ public class MyCountries extends ListActivity {
 			// EDIT
 			Intent intentEdit = new Intent(this, EditCountry.class);
 			intentEdit.putExtra("info.position", info.position);
-			intentEdit.putExtra("item.year", listAdapter.getItem(info.position).getYear());
-			intentEdit.putExtra("item.country", listAdapter.getItem(info.position).getCountry());
-			
+			intentEdit.putExtra("item.year", listAdapter.getItem(info.position)
+					.getYear());
+			intentEdit.putExtra("item.country",
+					listAdapter.getItem(info.position).getCountry());
+
 			this.startActivityForResult(intentEdit, 1);
 			return true;
 		case 1:
