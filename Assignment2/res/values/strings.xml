@@ -1,0 +1,28 @@
+<resources>
+
+    <string name="app_name">Assignment2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_my_contries">MyContries</string>
+    <string name="add_button">Add Country</string>
+    <string name="title_activity_add_country">AddCountry</string>
+    <string name="add_country">Add country</string>
+    <string name="enter_country">Enter country</string>
+    <string name="enter_year">Enter year</string>
+    <string name="add_values_button">Add values</string>
+    <string name="empty_set">Empty set</string>
+    <string name="edit_list_button">Add Country</string>
+    <string name="title_activity_main_list">MainList</string>
+    <string name="title_activity_my_countries_db_helper">MyCountriesDbHelper</string>
+    <string name="country_menu">CountryMenu</string>
+    <string name="sort_by_year_asc">Sort by year, ascending</string>
+    <string name="sort_by_country_asc">Sort by country, ascending</string>
+    <string name="sort_by_year_desc">Sort by year, descending</string>
+    <string name="sort_by_country_desc">Sort by country, descending</string>
+    <string name="title_activity_edit_country">EditCountry</string>
+    <string name="edit_year"></string>
+    <string name="edit_country"></string>
+    <string name="edit_values_button">Edit values</string>
+    <string name="settings">Settings</string>
+
+</resources>

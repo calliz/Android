@@ -1,0 +1,30 @@
+<resources>
+
+    <string name="app_name">Assignment1</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_random">Random</string>
+    <string name="random_value">100</string>
+    <string name="button_generate">Generate random value!</string>
+    <string name="title_activity_bmi">BMI</string>
+    <string name="bmi_value"></string>
+    <string name="button_reset">Reset</string>
+    <string name="button_compute">Compute</string>
+    <string name="edit_length">Enter your length in cm</string>
+    <string name="edit_weight">Enter your weight in kg</string>
+    <string name="title_activity_color_display">ColorDisplay</string>
+    <string name="red">Red:</string>
+    <string name="green">Green:</string>
+    <string name="blue">Blue:</string>
+    <string name="button_changecolor">Display Color</string>
+    <string name="title_activity_my_contries">MyContries</string>
+    <string name="add_button">Add Country</string>
+    <string name="title_activity_add_country">AddCountry</string>
+    <string name="add_country">Enter country</string>
+    <string name="add_year">Enter year</string>
+    <string name="add_values_button">Add values</string>
+    <string name="empty_set">Empty set</string>
+    <string name="edit_list_button">Add Country</string>
+    <string name="title_activity_main_list">MainList</string>
+
+</resources>

@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/edit_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:hint="@string/edit_year"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/edit_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_year"
+        android:hint="@string/edit_country"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/edit_values_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_country"
+        android:onClick="editValues"
+        android:text="@string/edit_values_button" />
+
+</RelativeLayout>

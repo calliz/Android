@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/country_menu"
+        android:icon="@android:drawable/ic_menu_add"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/country_menu">
+        <menu>
+            <item
+                android:id="@+id/add_country"
+                android:title="@string/add_country"/>
+            <item
+                android:id="@+id/sort_by_year_asc"
+                android:title="@string/sort_by_year_asc"/>
+            <item
+                android:id="@+id/sort_by_country_asc"
+                android:title="@string/sort_by_country_asc"/>
+            <item
+                android:id="@+id/sort_by_year_desc"
+                android:title="@string/sort_by_year_desc"/>
+            <item
+                android:id="@+id/sort_by_country_desc"
+                android:title="@string/sort_by_country_desc"/>
+            <item
+                android:id="@+id/settings"
+                android:title="@string/settings"/>
+        </menu>
+        <menu>
+        </menu>
+    </item>
+
+</menu>
