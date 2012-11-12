@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,49 +24,22 @@ public class MyCountries extends ListActivity {
 	private List<Country> values;
 	private ArrayAdapter<Country> listAdapter;
 
+	// Properties
+	private int sortProp;
+	private boolean checkboxPref;
+	private String colorPref;
+	private String editPref;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-
-		// Load simple properties
-		int sortProp = prefs.getInt("sortProp", -1);
-		boolean checkboxPref = prefs.getBoolean("checkboxPref", false);
-		String colorPref = prefs.getString("colorPref", "#FFFFFF");
-		String editPref = prefs.getString("editPref", "NULL");
-
 		datasource = new CountriesDataSource(this);
 		datasource.open();
 
-		// get all countries
-		switch (sortProp) {
-		case 0:
-			values = datasource.getAllCountriesSortedByYearASC();
-			showToast("values sorted by Year ASC");
-			break;
-		case 1:
-			values = datasource.getAllCountriesSortedByCountryASC();
-			showToast("values sorted by Country ASC");
-			break;
-		case 2:
-			values = datasource.getAllCountriesSortedByYearDESC();
-			showToast("values sorted by Year DESC");
-			break;
-		case 3:
-			values = datasource.getAllCountriesSortedByCountryDESC();
-			showToast("values sorted by Country DESC");
-			break;
-		default:
-			values = datasource.getAllCountries();
-			showToast("values sorted by default");
-			break;
-		}
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-		showToast("sortProp : " + sortProp + "\ncheckboxPref: " + checkboxPref
-				+ "\ncolorPref: " + colorPref + "\neditPref: " + editPref);
+		checkPreferences();
 
 		// fill ListView with elements
 		ListView list = getListView();
@@ -81,8 +53,48 @@ public class MyCountries extends ListActivity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		list.setBackgroundColor(Color.parseColor(colorPref));
-		showToast("backgroundColor set to: " + Color.parseColor(colorPref));
+	}
+
+	private void checkPreferences() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		// Load simple properties
+		sortProp = prefs.getInt("sortProp", -1);
+		checkboxPref = prefs.getBoolean("checkboxPref", false);
+		colorPref = prefs.getString("colorPref", "#FFFFFF");
+		editPref = prefs.getString("editPref", "NULL");
+
+		getListView().setBackgroundColor(Color.parseColor(colorPref));
+		// showToast("backgroundColor set to: " + Color.parseColor(colorPref));
+
+		// get all countries
+		switch (sortProp) {
+		case 0:
+			values = datasource.getAllCountriesSortedByYearASC();
+			// showToast("values sorted by Year ASC");
+			break;
+		case 1:
+			values = datasource.getAllCountriesSortedByCountryASC();
+			// showToast("values sorted by Country ASC");
+			break;
+		case 2:
+			values = datasource.getAllCountriesSortedByYearDESC();
+			// showToast("values sorted by Year DESC");
+			break;
+		case 3:
+			values = datasource.getAllCountriesSortedByCountryDESC();
+			// showToast("values sorted by Country DESC");
+			break;
+		default:
+			values = datasource.getAllCountries();
+			// showToast("values sorted by default");
+			break;
+		}
+
+		// showToast("sortProp : " + sortProp + "\ncheckboxPref: " +
+		// checkboxPref
+		// + "\ncolorPref: " + colorPref + "\neditPref: " + editPref);
 	}
 
 	@Override
@@ -202,8 +214,9 @@ public class MyCountries extends ListActivity {
 	@Override
 	protected void onResume() {
 		// showToast("onResume");
-		datasource.open();
 		super.onResume();
+		datasource.open();
+		checkPreferences();
 	}
 
 	@Override
