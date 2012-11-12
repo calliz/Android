@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,7 +36,7 @@ public class MyCountries extends ListActivity {
 		// Load simple properties
 		int sortProp = prefs.getInt("sortProp", -1);
 		boolean checkboxPref = prefs.getBoolean("checkboxPref", false);
-		String colorPref = prefs.getString("colorPref", "-1");
+		String colorPref = prefs.getString("colorPref", "#FFFFFF");
 		String editPref = prefs.getString("editPref", "NULL");
 
 		datasource = new CountriesDataSource(this);
@@ -78,6 +80,9 @@ public class MyCountries extends ListActivity {
 		// Use actionBar
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		list.setBackgroundColor(Color.parseColor(colorPref));
+		showToast("backgroundColor set to: " + Color.parseColor(colorPref));
 	}
 
 	@Override
