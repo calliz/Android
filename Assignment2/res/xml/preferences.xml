@@ -7,13 +7,21 @@
         android:title="Advanced preferences" />
 
     <ListPreference
-        android:defaultValue="#FFFFFF"
+        android:defaultValue="@color/blue"
         android:dependency="checkboxPref"
         android:entries="@array/colors"
         android:entryValues="@array/colors_values"
-        android:key="colorPref"
+        android:key="backgroundColorPref"
         android:summary="This preference allows to select a background color"
-        android:title="Color preference" />
+        android:title="Background color preference" />
+    <ListPreference
+        android:defaultValue="@color/blue"
+        android:dependency="checkboxPref"
+        android:entries="@array/colors"
+        android:entryValues="@array/colors_values"
+        android:key="textColorPref"
+        android:summary="This preference allows to select a text color"
+        android:title="Text color preference" />
 
     <EditTextPreference
         android:defaultValue="NULL"

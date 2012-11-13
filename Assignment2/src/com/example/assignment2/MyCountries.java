@@ -6,7 +6,6 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
@@ -27,7 +26,8 @@ public class MyCountries extends ListActivity {
 	// Properties
 	private int sortProp;
 	private boolean checkboxPref;
-	private String colorPref;
+	private String textColorPref;
+	private String backgroundColorPref;
 	private String editPref;
 
 	@Override
@@ -62,11 +62,39 @@ public class MyCountries extends ListActivity {
 		// Load simple properties
 		sortProp = prefs.getInt("sortProp", -1);
 		checkboxPref = prefs.getBoolean("checkboxPref", false);
-		colorPref = prefs.getString("colorPref", "#FFFFFF");
+		textColorPref = prefs.getString("textColorPref", "#C0C0C0");
+		backgroundColorPref = prefs.getString("backgroundColorPref",
+				"#00FF00FF");
 		editPref = prefs.getString("editPref", "NULL");
 
-		getListView().setBackgroundColor(Color.parseColor(colorPref));
-		// showToast("backgroundColor set to: " + Color.parseColor(colorPref));
+		// getListView().setBackgroundColor(Color.parseColor(textColorPref));
+
+		// setup ListView adapter and fill ListView with elements
+		int list_text_color;
+
+		if (textColorPref.equals("red")) {
+			showToast("textColorPref = red");
+			list_text_color = R.id.list_text_red;
+		} else if (textColorPref.equals("green")) {
+			showToast("textColorPref = green");
+			list_text_color = R.id.list_text_green;
+		} else {
+			showToast("textColorPref = undefined");
+			list_text_color = R.id.list_text_green;
+		}
+
+		// listAdapter = new ArrayAdapter<Country>(this,
+		// R.layout.mycountries_list_layout, R.id.list_text_green, values);
+		ListView listView = (ListView) findViewById(R.id.myList);
+		// ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(this,
+		// R.layout.mycountries_list_layout, R.id.list_text_green, values);
+
+		// listView.setAdapter(adapter);
+		// setListAdapter(listAdapter);
+		// if (getListView() == null) {
+		// Log.i("calle", "listView == NULL");
+		//
+		// }
 
 		// get all countries
 		switch (sortProp) {

@@ -26,7 +26,7 @@ public class MainList extends ListActivity {
 
 		/* Add Activities to list */
 		setup_activities();
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.main_list_item,
+		setListAdapter(new ArrayAdapter<String>(this, R.layout.main_list_layout,
 				activities));
 
 		/* Attach list item listener */

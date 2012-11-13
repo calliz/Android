@@ -11,7 +11,7 @@ public class EditCountry extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_country);
+		setContentView(R.layout.edit_country_layout);
 
 		EditText yearValue = (EditText) findViewById(R.id.edit_year);
 		EditText countryValue = (EditText) findViewById(R.id.edit_country);
