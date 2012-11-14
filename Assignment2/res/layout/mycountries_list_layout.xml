@@ -3,30 +3,75 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-    <ListView
-        android:id="@+id/myList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!-- <TextView -->
+    <!-- xmlns:android="http://schemas.android.com/apk/res/android" -->
+    <!-- android:id="@+id/list_text_black" -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:paddingBottom="3dip" -->
+    <!-- android:paddingTop="2dip" /> -->
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_text_blacker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="3dip"
+        android:paddingTop="2dip"
+        android:textColor="@color/black" />
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/list_text_green"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:paddingLeft="6dip"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:paddingBottom="3dip"
+        android:paddingTop="2dip"
+        android:textColor="@color/green" />
 
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/list_text_red"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:paddingLeft="6dip"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/red" />
+    <!-- <TextView -->
+    <!-- xmlns:android="http://schemas.android.com/apk/res/android" -->
+    <!-- android:id="@+id/list_text_red" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:gravity="center_vertical" -->
+    <!-- android:minHeight="?android:attr/listPreferredItemHeight" -->
+    <!-- android:paddingLeft="6dip" -->
+    <!-- android:textColor="@color/red" /> -->
+
+
+    <!-- <TextView -->
+    <!-- xmlns:android="http://schemas.android.com/apk/res/android" -->
+    <!-- android:id="@+id/list_text_green" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:gravity="center_vertical" -->
+    <!-- android:minHeight="?android:attr/listPreferredItemHeight" -->
+    <!-- android:paddingLeft="6dip" -->
+    <!-- android:textColor="@color/green" /> -->
+
+
+    <!-- <TextView -->
+    <!-- xmlns:android="http://schemas.android.com/apk/res/android" -->
+    <!-- android:id="@+id/list_text_green" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:gravity="center_vertical" -->
+    <!-- android:minHeight="?android:attr/listPreferredItemHeight" -->
+    <!-- android:paddingLeft="6dip" -->
+    <!-- android:textAppearance="?android:attr/textAppearanceLarge" -->
+    <!-- android:textColor="@color/green" /> -->
+
+
+    <!-- <TextView -->
+    <!-- xmlns:android="http://schemas.android.com/apk/res/android" -->
+    <!-- android:id="@+id/list_text_red" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:gravity="center_vertical" -->
+    <!-- android:minHeight="?android:attr/listPreferredItemHeight" -->
+    <!-- android:paddingLeft="6dip" -->
+    <!-- android:textAppearance="?android:attr/textAppearanceLarge" -->
+    <!-- android:textColor="@color/red" /> -->
 
 </LinearLayout>

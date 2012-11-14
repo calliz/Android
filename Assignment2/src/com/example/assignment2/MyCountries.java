@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
@@ -15,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyCountries extends ListActivity {
@@ -33,7 +34,7 @@ public class MyCountries extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		setContentView(R.layout.mycountries_list_layout);
 		datasource = new CountriesDataSource(this);
 		datasource.open();
 
@@ -42,17 +43,16 @@ public class MyCountries extends ListActivity {
 		checkPreferences();
 
 		// fill ListView with elements
-		ListView list = getListView();
+		// ListView list = getListView();
 
 		listAdapter = new ArrayAdapter<Country>(this,
-				android.R.layout.simple_list_item_1, values);
+				R.layout.mycountries_list_layout, R.id.list_text_blacker, values);
 		setListAdapter(listAdapter);
-		registerForContextMenu(list);
+		registerForContextMenu(getListView());
 
 		// Use actionBar
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-
 	}
 
 	private void checkPreferences() {
@@ -67,25 +67,31 @@ public class MyCountries extends ListActivity {
 				"#00FF00FF");
 		editPref = prefs.getString("editPref", "NULL");
 
-		// getListView().setBackgroundColor(Color.parseColor(textColorPref));
-
 		// setup ListView adapter and fill ListView with elements
-		int list_text_color;
+		int list_text_color = R.id.list_text_blacker;
 
 		if (textColorPref.equals("red")) {
-			showToast("textColorPref = red");
-			list_text_color = R.id.list_text_red;
+			// showToast("textColorPref = red");
+			// list_text_color = R.id.list_text_red;
 		} else if (textColorPref.equals("green")) {
 			showToast("textColorPref = green");
-			list_text_color = R.id.list_text_green;
+			// list_text_color = R.id.list_text_green;
 		} else {
-			showToast("textColorPref = undefined");
+			showToast("textColorPref = " + textColorPref);
 			list_text_color = R.id.list_text_green;
 		}
 
 		// listAdapter = new ArrayAdapter<Country>(this,
+		// R.layout.mycountries_list_layout, list_text_color, values);
+		// setListAdapter(listAdapter);
+		
+		getListView().setBackgroundColor(Color.parseColor(backgroundColorPref));
+		TextView text = (TextView) findViewById(R.id.list_text_blacker);
+		text.setTextColor(getResources().getColor(R.color.maroon));
+
+		// listAdapter = new ArrayAdapter<Country>(this,
 		// R.layout.mycountries_list_layout, R.id.list_text_green, values);
-		ListView listView = (ListView) findViewById(R.id.myList);
+		// ListView listView = (ListView) findViewById(R.id.myList);
 		// ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(this,
 		// R.layout.mycountries_list_layout, R.id.list_text_green, values);
 
