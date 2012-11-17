@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyCountries extends Activity {
@@ -39,21 +37,18 @@ public class MyCountries extends Activity {
 		setContentView(R.layout.mycountries_main_layout);
 
 		countryListView = (ListView) findViewById(R.id.country_list);
-		
+
 		datasource = new CountriesDataSource(this);
 		datasource.open();
-		
+
 		checkPreferences();
-		
+
 		listAdapter = new ArrayAdapter<Country>(this,
 				R.layout.mycountries_row_layout, R.id.list_text_black, values);
 
 		countryListView.setAdapter(listAdapter);
 
-
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-		 
 
 		// fill ListView with elements
 		// ListView list = getListView();
@@ -91,7 +86,7 @@ public class MyCountries extends Activity {
 			showToast("textColorPref = green");
 			// list_text_color = R.id.list_text_green;
 		} else {
-			showToast("textColorPref = " + textColorPref);
+			showToast("jajaja " + textColorPref);
 			list_text_color = R.id.list_text_green;
 		}
 
@@ -99,10 +94,11 @@ public class MyCountries extends Activity {
 		// R.layout.mycountries_list_layout, list_text_color, values);
 		// setListAdapter(listAdapter);
 
-		countryListView.setBackgroundColor(Color
-				.parseColor(backgroundColorPref));
-//		TextView text = (TextView) findViewById(R.id.list_text_black);
-//		text.setTextColor(getResources().getColor(R.color.maroon));
+		View mainView = findViewById(R.id.country_main_layout);
+
+		mainView.setBackgroundColor(Color.parseColor(backgroundColorPref));
+		// TextView text = (TextView) findViewById(R.id.list_text_black);
+		// text.setTextColor(getResources().getColor(R.color.maroon));
 
 		// listAdapter = new ArrayAdapter<Country>(this,
 		// R.layout.mycountries_list_layout, R.id.list_text_green, values);
@@ -265,7 +261,7 @@ public class MyCountries extends Activity {
 		// showToast("onResume");
 		super.onResume();
 		datasource.open();
-		// checkPreferences();
+		 checkPreferences();
 	}
 
 	@Override
