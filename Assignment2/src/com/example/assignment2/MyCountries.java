@@ -3,12 +3,13 @@ package com.example.assignment2;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -16,13 +17,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyCountries extends ListActivity {
+public class MyCountries extends Activity {
 	private CountriesDataSource datasource;
 	private List<Country> values;
 	private ArrayAdapter<Country> listAdapter;
+	private ListView countryListView;
 
 	// Properties
 	private int sortProp;
@@ -31,24 +34,35 @@ public class MyCountries extends ListActivity {
 	private String backgroundColorPref;
 	private String editPref;
 
-	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mycountries_list_layout);
+		setContentView(R.layout.mycountries_main_layout);
+
+		countryListView = (ListView) findViewById(R.id.country_list);
+		
 		datasource = new CountriesDataSource(this);
 		datasource.open();
+		
+		checkPreferences();
+		
+		listAdapter = new ArrayAdapter<Country>(this,
+				R.layout.mycountries_row_layout, R.id.list_text_black, values);
+
+		countryListView.setAdapter(listAdapter);
+
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-		checkPreferences();
+		 
 
 		// fill ListView with elements
 		// ListView list = getListView();
 
-		listAdapter = new ArrayAdapter<Country>(this,
-				R.layout.mycountries_list_layout, R.id.list_text_blacker, values);
-		setListAdapter(listAdapter);
-		registerForContextMenu(getListView());
+		// listAdapter = new ArrayAdapter<Country>(this,
+		// R.layout.mycountries_main_layout, R.id.list_text_blacker, values);
+		// setListAdapter(listAdapter);
+
+		registerForContextMenu(countryListView);
 
 		// Use actionBar
 		ActionBar actionBar = getActionBar();
@@ -68,7 +82,7 @@ public class MyCountries extends ListActivity {
 		editPref = prefs.getString("editPref", "NULL");
 
 		// setup ListView adapter and fill ListView with elements
-		int list_text_color = R.id.list_text_blacker;
+		int list_text_color = R.id.list_text_black;
 
 		if (textColorPref.equals("red")) {
 			// showToast("textColorPref = red");
@@ -84,10 +98,11 @@ public class MyCountries extends ListActivity {
 		// listAdapter = new ArrayAdapter<Country>(this,
 		// R.layout.mycountries_list_layout, list_text_color, values);
 		// setListAdapter(listAdapter);
-		
-		getListView().setBackgroundColor(Color.parseColor(backgroundColorPref));
-		TextView text = (TextView) findViewById(R.id.list_text_blacker);
-		text.setTextColor(getResources().getColor(R.color.maroon));
+
+		countryListView.setBackgroundColor(Color
+				.parseColor(backgroundColorPref));
+//		TextView text = (TextView) findViewById(R.id.list_text_black);
+//		text.setTextColor(getResources().getColor(R.color.maroon));
 
 		// listAdapter = new ArrayAdapter<Country>(this,
 		// R.layout.mycountries_list_layout, R.id.list_text_green, values);
@@ -250,7 +265,7 @@ public class MyCountries extends ListActivity {
 		// showToast("onResume");
 		super.onResume();
 		datasource.open();
-		checkPreferences();
+		// checkPreferences();
 	}
 
 	@Override
