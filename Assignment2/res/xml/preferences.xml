@@ -7,7 +7,7 @@
         android:title="Advanced preferences" />
 
     <ListPreference
-        android:defaultValue="@color/blue"
+        android:defaultValue="@color/black"
         android:dependency="checkboxPref"
         android:entries="@array/colors"
         android:entryValues="@array/colors_values"
@@ -15,7 +15,7 @@
         android:summary="This preference allows to select a background color"
         android:title="Background color preference" />
     <ListPreference
-        android:defaultValue="@color/blue"
+        android:defaultValue="@color/white"
         android:dependency="checkboxPref"
         android:entries="@array/colors"
         android:entryValues="@array/colors_values"
