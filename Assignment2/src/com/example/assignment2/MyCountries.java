@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyCountries extends Activity {
@@ -30,6 +32,8 @@ public class MyCountries extends Activity {
 	private ListView countryListView;
 
 	// Properties
+	private OnSharedPreferenceChangeListener prefListener;
+	private SharedPreferences prefs;
 	private int sortProp;
 	private boolean checkboxPref;
 	private String textColorPref;
@@ -43,7 +47,11 @@ public class MyCountries extends Activity {
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
 		loadSimpleProperties();
+
+		setupPreferenceListener();
 
 		openDatabase();
 
@@ -71,6 +79,20 @@ public class MyCountries extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
+	private void setupPreferenceListener() {
+		// Use instance field for listener
+		// It will not be gc'd as long as this instance is kept referenced
+		prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+			public void onSharedPreferenceChanged(SharedPreferences prefs,
+					String key) {
+				// Implementation
+				loadSimpleProperties();
+				handleBackgroundColorProperties();
+				countryAdapter.notifyDataSetChanged();
+			}
+		};
+	}
+
 	private void openDatabase() {
 		datasource = new CountriesDataSource(this);
 		datasource.open();
@@ -89,50 +111,52 @@ public class MyCountries extends Activity {
 		mainView.setBackgroundColor(Color.parseColor(backgroundColorPref));
 	}
 
-	private int handleTextColorProperties() {
-		int list_text_color = -1;
+	private int getTextColorValue() {
+		return sortProp;
+		// int list_text_color = -1;
+		//
 
-		showToast("textColorPref set to: " + textColorPref);
-
-		if (textColorPref.equals("#FFFFFF")) {
-			list_text_color = R.id.list_text_white;
-		} else if (textColorPref.equals("#FFFF00")) {
-			list_text_color = R.id.list_text_yellow;
-		} else if (textColorPref.equals("#FF00FF")) {
-			list_text_color = R.id.list_text_fuchsia;
-		} else if (textColorPref.equals("#FF0000")) {
-			list_text_color = R.id.list_text_red;
-		} else if (textColorPref.equals("#C0C0C0")) {
-			list_text_color = R.id.list_text_silver;
-		} else if (textColorPref.equals("#808080")) {
-			list_text_color = R.id.list_text_gray;
-		} else if (textColorPref.equals("#808000")) {
-			list_text_color = R.id.list_text_olive;
-		} else if (textColorPref.equals("#800080")) {
-			list_text_color = R.id.list_text_purple;
-		} else if (textColorPref.equals("#800000")) {
-			list_text_color = R.id.list_text_maroon;
-		} else if (textColorPref.equals("#00FFFF")) {
-			list_text_color = R.id.list_text_aqua;
-		} else if (textColorPref.equals("#00FF00")) {
-			list_text_color = R.id.list_text_lime;
-		} else if (textColorPref.equals("#008080")) {
-			list_text_color = R.id.list_text_teal;
-		} else if (textColorPref.equals("#008000")) {
-			list_text_color = R.id.list_text_green;
-		} else if (textColorPref.equals("#0000FF")) {
-			list_text_color = R.id.list_text_blue;
-		} else if (textColorPref.equals("#000080")) {
-			list_text_color = R.id.list_text_navy;
-		} else if (textColorPref.equals("#000000")) {
-			list_text_color = R.id.list_text_black;
-		} else {
-			list_text_color = R.id.list_text_black;
-
-		}
-
-		showToast("list_text_color set to: " + list_text_color);
-		return list_text_color;
+		// showToast("textColorPref set to: " + textColorPref);
+		//
+		// if (textColorPref.equals("#FFFFFF")) {
+		// list_text_color = R.id.list_text_white;
+		// } else if (textColorPref.equals("#FFFF00")) {
+		// list_text_color = R.id.list_text_yellow;
+		// } else if (textColorPref.equals("#FF00FF")) {
+		// list_text_color = R.id.list_text_fuchsia;
+		// } else if (textColorPref.equals("#FF0000")) {
+		// list_text_color = R.id.list_text_red;
+		// } else if (textColorPref.equals("#C0C0C0")) {
+		// list_text_color = R.id.list_text_silver;
+		// } else if (textColorPref.equals("#808080")) {
+		// list_text_color = R.id.list_text_gray;
+		// } else if (textColorPref.equals("#808000")) {
+		// list_text_color = R.id.list_text_olive;
+		// } else if (textColorPref.equals("#800080")) {
+		// list_text_color = R.id.list_text_purple;
+		// } else if (textColorPref.equals("#800000")) {
+		// list_text_color = R.id.list_text_maroon;
+		// } else if (textColorPref.equals("#00FFFF")) {
+		// list_text_color = R.id.list_text_aqua;
+		// } else if (textColorPref.equals("#00FF00")) {
+		// list_text_color = R.id.list_text_lime;
+		// } else if (textColorPref.equals("#008080")) {
+		// list_text_color = R.id.list_text_teal;
+		// } else if (textColorPref.equals("#008000")) {
+		// list_text_color = R.id.list_text_green;
+		// } else if (textColorPref.equals("#0000FF")) {
+		// list_text_color = R.id.list_text_blue;
+		// } else if (textColorPref.equals("#000080")) {
+		// list_text_color = R.id.list_text_navy;
+		// } else if (textColorPref.equals("#000000")) {
+		// list_text_color = R.id.list_text_black;
+		// } else {
+		// list_text_color = R.id.list_text_black;
+		//
+		// }
+		//
+		// showToast("list_text_color set to: " + list_text_color);
+		// return list_text_color;
 	}
 
 	private void sortAndFetchCountriesFromDatabase() {
@@ -161,8 +185,6 @@ public class MyCountries extends Activity {
 	}
 
 	private void loadSimpleProperties() {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
 		checkboxPref = prefs.getBoolean("checkboxPref", false);
 		sortProp = prefs.getInt("sortProp", -1);
 		backgroundColorPref = prefs.getString("backgroundColorPref", "NULL");
@@ -273,12 +295,12 @@ public class MyCountries extends Activity {
 	}
 
 	private void setSortProp(int i) {
-		// Update sortProp
-		SharedPreferences simplePrefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
+		// // Update sortProp
+		// prefs = PreferenceManager
+		// .getDefaultSharedPreferences(this);
 
 		// Save sortProp
-		SharedPreferences.Editor edit = simplePrefs.edit();
+		SharedPreferences.Editor edit = prefs.edit();
 		edit.putInt("sortProp", i);
 
 		// Commit changes
@@ -291,14 +313,16 @@ public class MyCountries extends Activity {
 		// showToast("onResume");
 		super.onResume();
 		datasource.open();
-		countryAdapter.notifyDataSetChanged();
+		prefs.registerOnSharedPreferenceChangeListener(prefListener);
+
 	}
 
 	@Override
 	protected void onDestroy() {
 		// showToast("onDestroy");
-		datasource.close();
 		super.onDestroy();
+		datasource.close();
+		prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
 	}
 
 	@Override
@@ -349,7 +373,8 @@ public class MyCountries extends Activity {
 	private void showToast(String msg) {
 		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 	}
-	
+
+	// Custom adapter
 	private class CountryAdapter extends ArrayAdapter<Country> {
 		private List<Country> values;
 		private Activity context;
@@ -369,15 +394,23 @@ public class MyCountries extends Activity {
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				view = vi.inflate(R.layout.mycountries_row_layout, null);
 			}
-			
+
 			Country country = values.get(position);
-			
-			if(country != null) {
-				handleBackgroundColorProperties();
-				
+
+			if (country != null) {
+				// Set text and text color
+				TextView nameTextView = (TextView) view
+						.findViewById(R.id.name_text_view);
+				nameTextView.setText(country.getYear() + " "
+						+ country.getCountry());
+				nameTextView.setTextColor(Color.parseColor(textColorPref));
+
+				// Set text size
+
+				// Set picture
 			}
 
-			return super.getView(position, convertView, parent);
+			return view;
 		}
 
 	}
