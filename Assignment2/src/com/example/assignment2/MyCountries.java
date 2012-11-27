@@ -1,11 +1,11 @@
 package com.example.assignment2;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.example.assignment2.R.color;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -23,8 +25,8 @@ import android.widget.Toast;
 
 public class MyCountries extends Activity {
 	private CountriesDataSource datasource;
-	private List<Country> values;
-	private ArrayAdapter<Country> listAdapter;
+	private List<Country> countryList;
+	private CountryAdapter countryAdapter;
 	private ListView countryListView;
 
 	// Properties
@@ -36,27 +38,49 @@ public class MyCountries extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.mycountries_main_layout);
 
-		datasource = new CountriesDataSource(this);
-		datasource.open();
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-		// checkPreferences();
-		//
-		// registerForContextMenu(countryListView);
+		loadSimpleProperties();
+
+		openDatabase();
+
+		countryList = new ArrayList<Country>();
+
+		countryAdapter = new CountryAdapter(this,
+				R.layout.mycountries_row_layout, countryList);
+
+		sortAndFetchCountriesFromDatabase();
+
+		setupAdapter();
+
+		if (countryList != null && !countryList.isEmpty()) {
+			countryAdapter.notifyDataSetChanged();
+			countryAdapter.clear();
+			for (int i = 0; i < countryList.size(); i++) {
+				countryAdapter.add(countryList.get(i));
+			}
+		}
+
+		countryAdapter.notifyDataSetChanged();
 
 		// Use actionBar
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
-	private void setupAdapter(int list_id) {
-		listAdapter = new ArrayAdapter<Country>(this,
-				R.layout.mycountries_row_layout, list_id, values);
+	private void openDatabase() {
+		datasource = new CountriesDataSource(this);
+		datasource.open();
+	}
 
+	private void setupAdapter() {
 		countryListView = (ListView) findViewById(R.id.country_list);
-		countryListView.setAdapter(listAdapter);
+		countryListView.setAdapter(countryAdapter);
 		registerForContextMenu(countryListView);
+
 	}
 
 	private void handleBackgroundColorProperties() {
@@ -70,8 +94,7 @@ public class MyCountries extends Activity {
 
 		showToast("textColorPref set to: " + textColorPref);
 
-		
-		if (textColorPref.equals("#FFFFFF")) { 
+		if (textColorPref.equals("#FFFFFF")) {
 			list_text_color = R.id.list_text_white;
 		} else if (textColorPref.equals("#FFFF00")) {
 			list_text_color = R.id.list_text_yellow;
@@ -105,48 +128,36 @@ public class MyCountries extends Activity {
 			list_text_color = R.id.list_text_black;
 		} else {
 			list_text_color = R.id.list_text_black;
-			
+
 		}
 
 		showToast("list_text_color set to: " + list_text_color);
 		return list_text_color;
 	}
 
-	private void handleSortProperties() {
+	private void sortAndFetchCountriesFromDatabase() {
 		switch (sortProp) {
 		case 0:
-			values = datasource.getAllCountriesSortedByYearASC();
+			countryList = datasource.getAllCountriesSortedByYearASC();
 			// showToast("values sorted by Year ASC");
 			break;
 		case 1:
-			values = datasource.getAllCountriesSortedByCountryASC();
+			countryList = datasource.getAllCountriesSortedByCountryASC();
 			// showToast("values sorted by Country ASC");
 			break;
 		case 2:
-			values = datasource.getAllCountriesSortedByYearDESC();
+			countryList = datasource.getAllCountriesSortedByYearDESC();
 			// showToast("values sorted by Year DESC");
 			break;
 		case 3:
-			values = datasource.getAllCountriesSortedByCountryDESC();
+			countryList = datasource.getAllCountriesSortedByCountryDESC();
 			// showToast("values sorted by Country DESC");
 			break;
 		default:
-			values = datasource.getAllCountries();
+			countryList = datasource.getAllCountries();
 			// showToast("values sorted by default");
 			break;
 		}
-	}
-
-	private void checkPreferences() {
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-		loadSimpleProperties();
-
-		handleSortProperties();
-
-		handleBackgroundColorProperties();
-
-		setupAdapter(handleTextColorProperties());
 	}
 
 	private void loadSimpleProperties() {
@@ -175,8 +186,8 @@ public class MyCountries extends Activity {
 						newCountry);
 
 				// Add the new country to the listAdapter
-				listAdapter.add(countryToAdd);
-				listAdapter.notifyDataSetChanged();
+				countryAdapter.add(countryToAdd);
+				countryAdapter.notifyDataSetChanged();
 				break;
 			case 1:
 				// EDIT COUNTRY
@@ -185,7 +196,7 @@ public class MyCountries extends Activity {
 				String updatedCountry = result.getStringExtra("country");
 
 				// Fetch the old country from the listAdapter
-				Country countryToUpdate = listAdapter.getItem(infoPosition);
+				Country countryToUpdate = countryAdapter.getItem(infoPosition);
 
 				// Update the old country in the database
 				if (datasource.updateCountry(countryToUpdate.getId(),
@@ -195,7 +206,7 @@ public class MyCountries extends Activity {
 					countryToUpdate.setYear(updatedYear);
 					countryToUpdate.setCountry(updatedCountry);
 
-					listAdapter.notifyDataSetChanged();
+					countryAdapter.notifyDataSetChanged();
 				} else {
 					showToast("error updating, database not updated");
 				}
@@ -222,28 +233,30 @@ public class MyCountries extends Activity {
 			return true;
 		case R.id.sort_by_year_asc:
 			// get all countries by year
-			listAdapter.clear();
-			listAdapter.addAll(datasource.getAllCountriesSortedByYearASC());
+			countryAdapter.clear();
+			countryAdapter.addAll(datasource.getAllCountriesSortedByYearASC());
 			setSortProp(0);
-			listAdapter.notifyDataSetChanged();
+			countryAdapter.notifyDataSetChanged();
 			return true;
 		case R.id.sort_by_country_asc:
-			listAdapter.clear();
-			listAdapter.addAll(datasource.getAllCountriesSortedByCountryASC());
+			countryAdapter.clear();
+			countryAdapter.addAll(datasource
+					.getAllCountriesSortedByCountryASC());
 			setSortProp(1);
-			listAdapter.notifyDataSetChanged();
+			countryAdapter.notifyDataSetChanged();
 			return true;
 		case R.id.sort_by_year_desc:
-			listAdapter.clear();
-			listAdapter.addAll(datasource.getAllCountriesSortedByYearDESC());
+			countryAdapter.clear();
+			countryAdapter.addAll(datasource.getAllCountriesSortedByYearDESC());
 			setSortProp(2);
-			listAdapter.notifyDataSetChanged();
+			countryAdapter.notifyDataSetChanged();
 			return true;
 		case R.id.sort_by_country_desc:
-			listAdapter.clear();
-			listAdapter.addAll(datasource.getAllCountriesSortedByCountryDESC());
+			countryAdapter.clear();
+			countryAdapter.addAll(datasource
+					.getAllCountriesSortedByCountryDESC());
 			setSortProp(3);
-			listAdapter.notifyDataSetChanged();
+			countryAdapter.notifyDataSetChanged();
 			return true;
 		case R.id.settings:
 			startActivity(new Intent(this, CountryPreferenceActivity.class));
@@ -278,7 +291,7 @@ public class MyCountries extends Activity {
 		// showToast("onResume");
 		super.onResume();
 		datasource.open();
-		checkPreferences();
+		countryAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -295,7 +308,7 @@ public class MyCountries extends Activity {
 
 		// Later, inflate from XML menu instead
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-		menu.setHeaderTitle(values.get(info.position).toString());
+		menu.setHeaderTitle(countryList.get(info.position).toString());
 		menu.add(0, 0, 0, "Edit");
 		menu.add(0, 1, 0, "Delete");
 	}
@@ -309,22 +322,22 @@ public class MyCountries extends Activity {
 			// EDIT
 			Intent intentEdit = new Intent(this, EditCountry.class);
 			intentEdit.putExtra("info.position", info.position);
-			intentEdit.putExtra("item.year", listAdapter.getItem(info.position)
-					.getYear());
+			intentEdit.putExtra("item.year",
+					countryAdapter.getItem(info.position).getYear());
 			intentEdit.putExtra("item.country",
-					listAdapter.getItem(info.position).getCountry());
+					countryAdapter.getItem(info.position).getCountry());
 
 			this.startActivityForResult(intentEdit, 1);
 			return true;
 		case 1:
 			// DELETE
-			Country country = listAdapter.getItem(info.position);
+			Country country = countryAdapter.getItem(info.position);
 
 			if (!datasource.deleteCountry(country)) {
 				showToast("error deleting country in database!");
 			} else {
-				listAdapter.remove(country);
-				listAdapter.notifyDataSetChanged();
+				countryAdapter.remove(country);
+				countryAdapter.notifyDataSetChanged();
 			}
 			return true;
 		default:
@@ -336,4 +349,37 @@ public class MyCountries extends Activity {
 	private void showToast(String msg) {
 		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 	}
+	
+	private class CountryAdapter extends ArrayAdapter<Country> {
+		private List<Country> values;
+		private Activity context;
+
+		public CountryAdapter(Activity context, int textViewResourceId,
+				List<Country> values) {
+			super(context, textViewResourceId, values);
+			this.context = context;
+			this.values = values;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view = convertView;
+			if (view == null) {
+				LayoutInflater vi = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				view = vi.inflate(R.layout.mycountries_row_layout, null);
+			}
+			
+			Country country = values.get(position);
+			
+			if(country != null) {
+				handleBackgroundColorProperties();
+				
+			}
+
+			return super.getView(position, convertView, parent);
+		}
+
+	}
+
 }
