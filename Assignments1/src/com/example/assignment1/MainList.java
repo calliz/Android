@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import vaxjo.dv106.weather.VaxjoWeather;
+import vaxjo.dv106.weather.Weather;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -60,6 +63,7 @@ public class MainList extends ListActivity {
 		addActivity("BMI", BMI.class);
 		addActivity("ColorDisplay", ColorDisplay.class);
 		addActivity("MyCountries", MyCountries.class);
+		addActivity("Weather", VaxjoWeather.class);
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -26,5 +26,9 @@
     <string name="empty_set">Empty set</string>
     <string name="edit_list_button">Add Country</string>
     <string name="title_activity_main_list">MainList</string>
+    <string name="weatherapp">WeatherApp</string>
+    <string name="weather_forecasts">Weather forecasts</string>
+    <string name="weather_in_malm_">Weather in Malmö</string>
+    <string name="weather_forecast_for_malm_">Weather forecast for Malmö</string>
 
 </resources>

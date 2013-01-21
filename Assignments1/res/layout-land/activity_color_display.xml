@@ -12,100 +12,80 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:background="@android:color/black"
-        android:shrinkColumns="*" >
-
-        <!-- android:stretchColumns="*" > -->
-
-        <TableRow
+        android:layout_alignParentTop="true"
+        android:background="@android:color/darker_gray"
+       android:shrinkColumns="*"
+        android:stretchColumns="*" >
+         
+        <LinearLayout
             android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text_view_red"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"	
+                android:layout_gravity="center_vertical"
                 android:text="@string/red"
                 android:textColor="#FFFFFF" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <EditText
+            
+             <EditText
                 android:id="@+id/edit_red"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"	
+                android:layout_gravity="center_vertical"
                 android:inputType="number" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/text_view_green"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"	
+                android:layout_gravity="center_vertical"
                 android:text="@string/green"
                 android:textColor="#FFFFFF" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
+            
             <EditText
                 android:id="@+id/edit_green"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"	
+                android:layout_gravity="center_vertical"
                 android:inputType="number" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/text_view_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+               android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"	
+                android:layout_gravity="center_vertical"
                 android:text="@string/blue"
                 android:textColor="#FFFFFF" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <EditText
+            
+                <EditText
                 android:id="@+id/edit_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"	
+                android:layout_gravity="center_vertical"
                 android:inputType="number" />
-        </TableRow>
-        
-        <TableRow
-               android:id="@+id/tableRow7"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:gravity="center">
+        </LinearLayout>
+
 
                 <Button
                     android:id="@+id/button_changecolor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"	
+                android:layout_gravity="center_vertical"
                     android:onClick="changeColor"
                     android:text="@string/button_changecolor" />
            
-        </TableRow>
+        
     </TableLayout>
 
 </RelativeLayout>
