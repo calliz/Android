@@ -14,20 +14,10 @@
         <activity
             android:name=".MyCountries"
             android:label="@string/title_activity_my_contries" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AddCountry"
             android:label="@string/title_activity_add_country" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainList"
@@ -41,20 +31,10 @@
         <activity
             android:name=".MyCountriesDbHelper"
             android:label="@string/title_activity_my_countries_db_helper" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".EditCountry"
             android:label="@string/title_activity_edit_country" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".CountryPreferenceActivity" />
     </application>
